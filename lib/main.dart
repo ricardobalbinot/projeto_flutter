@@ -66,13 +66,15 @@ class MyHomePageState extends State<MyHomePage> {
         title: new Text(widget.title),
         backgroundColor: Colors.teal,
       ),
+      
       body: getBody(),
+      
       floatingActionButton: new FloatingActionButton(
         backgroundColor: floatingButtonColor,
+        child: Icon(Icons.add),
         onPressed: () {
           openScreen(this);
         },
-        child: Icon(Icons.add),
       ),
     );
   }

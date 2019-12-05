@@ -17,6 +17,11 @@ class TelaAdicionarState extends State<TelaAdicionar> {
   String numero;
   String nome;
 
+  TelaAdicionarState({
+    this.nome,
+    this.numero,
+  });
+
   @override
   void initState() {
     super.initState();
@@ -24,7 +29,7 @@ class TelaAdicionarState extends State<TelaAdicionar> {
     if (widget.contato != null) {
       this.numero = widget.contato.numero;
       this.nome = widget.contato.nome;
-    }
+    } 
   }
 
   @override
@@ -32,9 +37,7 @@ class TelaAdicionarState extends State<TelaAdicionar> {
     return new Scaffold(
       appBar: new AppBar(
         automaticallyImplyLeading: true,
-        title: widget.contato != null
-            ? Text('Editando Contato')
-            : Text('Novo Contato'),
+        title: widget.contato != null ? Text('Editando Contato'): Text('Novo Contato'),
         backgroundColor: Colors.teal,
       ),
       body: Container(
@@ -45,8 +48,8 @@ class TelaAdicionarState extends State<TelaAdicionar> {
           child: Column(
             children: <Widget>[
               TextFormField(
-                onChanged: (value) {
-                  this.nome = value;
+                onChanged: (value){
+                    this.nome = value;
                 },
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -56,14 +59,13 @@ class TelaAdicionarState extends State<TelaAdicionar> {
                     size: 28,
                   ),
                 ),
-                initialValue:
-                    widget.contato != null ? widget.contato.nome : null,
+                initialValue: widget.contato != null ? widget.contato.nome : null,
               ),
               Padding(padding: EdgeInsets.only(top: 16)),
               TextFormField(
                 keyboardType: TextInputType.phone,
-                onChanged: (value) {
-                  this.numero = value;
+                onChanged: (value){
+                    this.numero = value;
                 },
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -74,12 +76,9 @@ class TelaAdicionarState extends State<TelaAdicionar> {
                   ),
                 ),
                 inputFormatters: <TextInputFormatter>[
-                  WhitelistingTextInputFormatter.digitsOnly
-                ],
-                // On,
-                initialValue: widget.contato != null
-                    ? widget.contato.numero.toString()
-                    : null,
+                      WhitelistingTextInputFormatter.digitsOnly
+                  ], // On,
+                initialValue: widget.contato != null ? widget.contato.numero.toString() : null,
               ),
               Padding(padding: EdgeInsets.only(top: 16)),
               MaterialButton(
@@ -92,17 +91,18 @@ class TelaAdicionarState extends State<TelaAdicionar> {
                 splashColor: Colors.tealAccent,
                 shape: StadiumBorder(),
                 onPressed: () {
-                  if (widget.contato != null) {
-                    widget.state.setState(() {
-                      widget.state.allContatos.remove(widget.contato);
-                    });
-                  }
+                  // if (widget.contato != null) {
+                  //   widget.state.setState((){
+                  //     widget.state.allContatos.remove(widget.contato);
+                  //   });
+                    
+                  // } 
 
-                  widget.state.setState(() {
-                    widget.state.allContatos
-                        .add(Contato(nome: this.nome, numero: this.numero));
-                  });
-                  // widget.state.allContatos.add(novoContato);
+          
+                  //   widget.state.setState((){
+                  //     widget.state.allContatos.add(Contato(nome: this.nome, numero: this.numero));
+                  //   });
+                  widget.state.allContatos.add(Contato(nome: this.nome, numero: this.numero));
                   Navigator.pop(context);
                 },
               )
