@@ -1,61 +1,132 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 
-void main() => runApp(MyApp());
+import 'package:flutter/material.dart';
+import 'package:projeto_flutter/adicionar.dart';
+import 'package:projeto_flutter/models/contato.dart';
+import 'package:projeto_flutter/pesquisa.dart';
+
+void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
+    return new MaterialApp(
+      title: 'Flutter Demo',
+      theme: new ThemeData(
+        primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      home: new MyHomePage(title: 'Lista de Contatos'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
+
+  final String title;
+  final String reloadLabel = 'Reload!';
+  final String fireLabel = 'Fire in the hole!';
+  final Color floatingButtonColor = Colors.teal;
+  final IconData reloadIcon = Icons.refresh;
+  final IconData fireIcon = Icons.add;
+
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  MyHomePageState createState() => new MyHomePageState(
+        floatingButtonLabel: this.fireLabel,
+        icon: this.fireIcon,
+        floatingButtonColor: this.floatingButtonColor,
+      );
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class MyHomePageState extends State<MyHomePage> {
+  List<Contato> uiCustomContatos;
+  List<Contato> allContatos;
+  String floatingButtonLabel;
+  Color floatingButtonColor;
+  IconData icon;
 
-  void _addContato() {
-    setState(() {
-      _counter++;
-    });
+  MyHomePageState({
+    this.floatingButtonLabel,
+    this.icon,
+    this.floatingButtonColor,
+  });
+
+  @override
+  void initState() {
+    super.initState();
+    uiCustomContatos = List<Contato>();
+    allContatos = List<Contato>();
   }
 
   @override
   Widget build(BuildContext context) {
-    
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Contatos'),
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text(widget.title),
+        backgroundColor: Colors.teal,
       ),
-      
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
-      ),
-      
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addContato,
-        tooltip: 'Increment',
+      body: getBody(),
+      floatingActionButton: new FloatingActionButton(
+        backgroundColor: floatingButtonColor,
+        onPressed: () {
+          openScreen(this);
+        },
         child: Icon(Icons.add),
       ),
     );
+  }
+
+  Widget getBody() {
+    return Column(
+      children: <Widget>[
+        RelatorioSearch(this),
+        Expanded(
+          flex: 1,
+          child: Container(
+            child: ListView.builder(
+              itemCount: uiCustomContatos?.length,
+              itemBuilder: (BuildContext context, int index) {
+                Contato _contato = uiCustomContatos[index];
+                return _buildList(_contato);
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  ListTile _buildList(Contato c) {
+    return ListTile(
+      title: Text(c.nome ?? ""),
+      subtitle: Text(c.numero ?? ""),
+      leading: new CircleAvatar(
+          backgroundColor: Colors.teal, child: Icon(Icons.phone_android)),
+      trailing: Container(
+        width: 80,
+        child: Row(
+          children: <Widget>[
+            Icon(Icons.phone_in_talk),
+            Padding(padding: EdgeInsets.only(left: 16)),
+            Icon(Icons.message),
+          ],
+        ),
+      ),
+      onTap: () {
+        openScreen(this, contato: c);
+      },
+    );
+  }
+
+  void openScreen(MyHomePageState myHomePageState, {Contato contato}) {
+    Navigator.of(context).push(new MaterialPageRoute<Null>(
+      builder: (
+        BuildContext context,
+      ) {
+        return TelaAdicionar(contato: contato, state: myHomePageState);
+      },
+      fullscreenDialog: true,
+    ));
   }
 }
