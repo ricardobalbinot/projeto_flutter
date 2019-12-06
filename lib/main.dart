@@ -31,10 +31,10 @@ class MyHomePage extends StatefulWidget {
 
   @override
   MyHomePageState createState() => new MyHomePageState(
-        floatingButtonLabel: this.fireLabel,
-        icon: this.fireIcon,
-        floatingButtonColor: this.floatingButtonColor,
-      );
+    floatingButtonLabel: this.fireLabel,
+    icon: this.fireIcon,
+    floatingButtonColor: this.floatingButtonColor,
+  );
 }
 
 class MyHomePageState extends State<MyHomePage> {

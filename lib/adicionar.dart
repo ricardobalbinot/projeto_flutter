@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projeto_flutter/main.dart';
 import 'package:projeto_flutter/models/contato.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class TelaAdicionar extends StatefulWidget {
   Contato contato;
@@ -16,6 +17,7 @@ class TelaAdicionar extends StatefulWidget {
 class TelaAdicionarState extends State<TelaAdicionar> {
   String numero;
   String nome;
+  var maskController = new MaskedTextController(mask: '(00) 00000-0000', text: '');
 
   TelaAdicionarState({
     this.nome,
@@ -29,6 +31,7 @@ class TelaAdicionarState extends State<TelaAdicionar> {
     if (widget.contato != null) {
       this.numero = widget.contato.numero;
       this.nome = widget.contato.nome;
+      maskController.text  = numero;
     } 
   }
 
@@ -47,6 +50,7 @@ class TelaAdicionarState extends State<TelaAdicionar> {
         child: Form(
           child: Column(
             children: <Widget>[
+              
               TextFormField(
                 onChanged: (value){
                     this.nome = value;
@@ -61,13 +65,18 @@ class TelaAdicionarState extends State<TelaAdicionar> {
                 ),
                 initialValue: widget.contato != null ? widget.contato.nome : null,
               ),
+              
               Padding(padding: EdgeInsets.only(top: 16)),
+              
               TextFormField(
+                maxLength: 15,
                 keyboardType: TextInputType.phone,
                 onChanged: (value){
                     this.numero = value;
                 },
+                controller: maskController,
                 decoration: InputDecoration(
+                  counterText: '',
                   border: OutlineInputBorder(),
                   hintText: 'Numero',
                   prefixIcon: Icon(
@@ -75,12 +84,10 @@ class TelaAdicionarState extends State<TelaAdicionar> {
                     size: 28,
                   ),
                 ),
-                inputFormatters: <TextInputFormatter>[
-                      WhitelistingTextInputFormatter.digitsOnly
-                  ], // On,
-                initialValue: widget.contato != null ? widget.contato.numero.toString() : null,
               ),
+              
               Padding(padding: EdgeInsets.only(top: 16)),
+              
               MaterialButton(
                 child: Text('Adicionar'),
                 minWidth: double.infinity,
