@@ -88,7 +88,7 @@ class MyHomePageState extends State<MyHomePage> {
               itemCount: uiCustomContatos?.length,
               itemBuilder: (BuildContext context, int index) {
                 Contato _contato = uiCustomContatos[index];
-                return _buildList(_contato);
+                return _buildList(_contato, context);
               },
             ),
           ),
@@ -97,12 +97,13 @@ class MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  ListTile _buildList(Contato c) {
+  ListTile _buildList(Contato c, BuildContext context) {
     return ListTile(
       title: Text(c.nome ?? ""),
       subtitle: Text(c.numero ?? ""),
       leading: new CircleAvatar(
-          backgroundColor: Colors.teal, child: Icon(Icons.phone_android)),
+          backgroundColor: Colors.teal, child: Icon(Icons.phone_android)
+      ),
       trailing: Container(
         width: 80,
         child: Row(
@@ -115,6 +116,19 @@ class MyHomePageState extends State<MyHomePage> {
       ),
       onTap: () {
         openScreen(this, contato: c);
+      },
+      onLongPress: () {
+        setState(() {
+          uiCustomContatos.remove(c);
+          allContatos.remove(c);
+          
+        });
+    
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text('Contato removido', textAlign: TextAlign.center, style:TextStyle(color: Colors.white, fontSize: 25)),
+          duration: Duration(seconds: 1),
+          backgroundColor: Colors.red,
+        ));
       },
     );
   }
