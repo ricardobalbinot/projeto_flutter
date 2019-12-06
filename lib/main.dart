@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:projeto_flutter/adicionar.dart';
 import 'package:projeto_flutter/models/contato.dart';

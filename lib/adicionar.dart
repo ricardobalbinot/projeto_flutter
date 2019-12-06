@@ -91,18 +91,17 @@ class TelaAdicionarState extends State<TelaAdicionar> {
                 splashColor: Colors.tealAccent,
                 shape: StadiumBorder(),
                 onPressed: () {
-                  // if (widget.contato != null) {
-                  //   widget.state.setState((){
-                  //     widget.state.allContatos.remove(widget.contato);
-                  //   });
-                    
-                  // } 
+                  if (widget.contato != null) {
+                    widget.state.setState((){
+                      widget.state.allContatos.remove(widget.contato);
+                    });      
+                  } 
 
-          
-                  //   widget.state.setState((){
-                  //     widget.state.allContatos.add(Contato(nome: this.nome, numero: this.numero));
-                  //   });
-                  widget.state.allContatos.add(Contato(nome: this.nome, numero: this.numero));
+                  widget.state.setState((){
+                    widget.state.allContatos.add(Contato(nome: this.nome, numero: this.numero));
+                    widget.state.uiCustomContatos = widget.state.allContatos;
+                  });
+
                   Navigator.pop(context);
                 },
               )
