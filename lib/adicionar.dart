@@ -106,6 +106,7 @@ class TelaAdicionarState extends State<TelaAdicionar> {
 
                   widget.state.setState((){
                     widget.state.allContatos.add(Contato(nome: this.nome, numero: this.numero));
+                    widget.state.allContatos.sort((a, b) => a.nome.compareTo(b.nome));
                     widget.state.uiCustomContatos = widget.state.allContatos;
                   });
 
